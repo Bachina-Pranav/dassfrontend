@@ -17,16 +17,27 @@ export default function LoginScreen({ navigation }) {
 
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
+    const passwordError = passwordValidator(password.value, email.value)
+    if (
+      (passwordError != 'a' &&  passwordError != 'd') &&
+      (emailError || passwordError)
+    ) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
       return
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+    if (passwordError == 'a') {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Dashboard_patient' }],
+      })
+    }
+    if (passwordError == 'd') {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Dashboard_doctor' }],
+      })
+    }
   }
 
   return (
